@@ -2,7 +2,7 @@
 
 /**
  * @author Mygento Team
- * @copyright 2017-2020 Mygento (https://www.mygento.ru)
+ * @copyright 2017-2024 Mygento (https://www.mygento.com)
  * @package Mygento_Configsync
  */
 
@@ -10,7 +10,7 @@ namespace Mygento\Configsync\Console\Command;
 
 class Sync extends \Symfony\Component\Console\Command\Command
 {
-    const DELETE = '%DELETE%';
+    private const DELETE = '%DELETE%';
 
     /**
      * @var \Magento\Framework\App\Config\ConfigResource\ConfigInterface
@@ -70,7 +70,7 @@ class Sync extends \Symfony\Component\Console\Command\Command
     protected function execute(
         \Symfony\Component\Console\Input\InputInterface $input,
         \Symfony\Component\Console\Output\OutputInterface $output
-    ) {
+    ): int {
         $this->output = $output;
 
         $envData = $this->getEnvData(
@@ -115,8 +115,7 @@ class Sync extends \Symfony\Component\Console\Command\Command
                     $line = sprintf(
                         '<info>[%s] %s -> DELETED</info>',
                         $scopeKey,
-                        $path,
-                        $newValue ?: 'null'
+                        $path
                     );
 
                     $this->output->writeln($line);
@@ -172,18 +171,18 @@ class Sync extends \Symfony\Component\Console\Command\Command
         if (!$this->isFileCorrect($data)) {
             throw new \Exception(
                 "File format is incorrect.\r\n\r\n"
-                . "For example the correct format:\r\n\r\n"
-                . "production:\r\n"
-                . "    default:\r\n"
-                . "        web/secure/base_url: https://domain.com/\r\n"
-                . '        web/secure/use_in_frontend: 1'
+                    . "For example the correct format:\r\n\r\n"
+                    . "production:\r\n"
+                    . "    default:\r\n"
+                    . "        web/secure/base_url: https://domain.com/\r\n"
+                    . '        web/secure/use_in_frontend: 1'
             );
         }
 
         if (!isset($data[$env])) {
             $this->output->writeln(
                 '<info>The environment doesn\'t exists in the file.'
-                . ' Nothing to import</info>'
+                    . ' Nothing to import</info>'
             );
 
             return 0;

@@ -2,11 +2,10 @@
   "name": "mygento/module-configsync",
   "description": "A module to store Magento configuration with multiple environments in the version control",
   "type": "magento2-module",
-  "version": "2.4.0",
   "license": "OSL-3.0",
   "authors": [{
     "name": "Nikita Tarasov",
-    "email": "nikita@mygento.ru"
+    "email": "nikita@mygento.com"
   }],
   "keywords": [
     "magento",
@@ -17,7 +16,7 @@
     "mustangostang/spyc": "^0.6.2"
   },
   "require-dev": {
-    "mygento/coding-standard": "~2.14.0-beta1"
+    "mygento/coding-standard": "~2.14.0"
   },
   "autoload": {
     "files": [
@@ -32,5 +31,12 @@
       "type": "composer",
       "url": "https://repo.magento.com"
     }
-  ]
+  ],
+  "config": {
+    "allow-plugins": {
+      "magento/composer-dependency-version-audit-plugin": false,
+      "magento/magento-composer-installer": false,
+      "phpro/grumphp": true
+    }
+  }
 }

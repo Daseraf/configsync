@@ -2,7 +2,7 @@
 
 /**
  * @author Mygento Team
- * @copyright 2017-2020 Mygento (https://www.mygento.ru)
+ * @copyright 2017-2024 Mygento (https://www.mygento.com)
  * @package Mygento_Configsync
  */
 
@@ -12,7 +12,7 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 
 class Dump extends \Symfony\Component\Console\Command\Command
 {
-    const CONFIG_DIR = 'config';
+    private const CONFIG_DIR = 'config';
 
     /**
      * @var \Magento\Framework\App\Config\ConfigResource\ConfigInterface
@@ -91,15 +91,16 @@ class Dump extends \Symfony\Component\Console\Command\Command
     protected function execute(
         \Symfony\Component\Console\Input\InputInterface $input,
         \Symfony\Component\Console\Output\OutputInterface $output
-    ) {
+    ): int {
         $this->output = $output;
         $section = $input->getArgument('section');
         $env = $input->getArgument('env');
         $filename = $input->getArgument('filename');
 
         $this->output->writeln("<info>Starting dump. Section: {$section}. Env: {$env}</info>");
-
-        $conf = $this->scopeConfig->get('system', 'default/' . $section);
+        /** @var \Magento\Framework\App\Config $c */
+        $c = $this->scopeConfig;
+        $conf = $c->get('system', 'default/' . $section);
 
         if (empty($conf)) {
             throw new \Exception('No config.');
@@ -128,6 +129,7 @@ class Dump extends \Symfony\Component\Console\Command\Command
 
         //Should we overwrite the file?
         if ($this->file->fileExists($filename)) {
+            /** @var \Symfony\Component\Console\Helper\QuestionHelper $helper */
             $helper = $this->getHelper('question');
             $question = new ChoiceQuestion(
                 'File already exists! Overwrite?',

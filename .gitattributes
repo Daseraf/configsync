@@ -11,4 +11,5 @@ magento.rb export-ignore
 .php_cs export-ignore
 grumphp.yml export-ignore
 phpcs.xml export-ignore
-psalm.xml export-ignore
+phpstan.neon export-ignore
+.php-cs-fixer.php export-ignore
